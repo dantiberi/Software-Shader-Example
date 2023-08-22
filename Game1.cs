@@ -2,10 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
-using MonoGame.Extended.Screens;
 using System;
-using System.Security.Cryptography;
-using System.Threading;
 
 namespace SoftShaderTest
 {
@@ -25,16 +22,16 @@ namespace SoftShaderTest
         float pixelSize;
         float screenWidth;
         float screenHeight;
-        float margin;       
+        float margin;
 
         Random rand;
 
         Vector2[][] positionMap;
         Vector3[][] colorMap;
 
-        LightBall[] lights = new LightBall[3];       
+        LightBall[] lights = new LightBall[3];
 
-        int frameCounter = 0;          
+        int frameCounter = 0;
 
         public Game1()
         {
@@ -54,19 +51,19 @@ namespace SoftShaderTest
             base.Initialize();
 
             screenWidth = GraphicsDevice.Viewport.Width;
-            screenHeight = GraphicsDevice.Viewport.Height;          
+            screenHeight = GraphicsDevice.Viewport.Height;
 
             BakePixels(false);
 
             lights[0] = new LightBall(0, 0, 4, new Vector3(0.2f, 0.2f, 1.5f), new Vector3(screenWidth, screenHeight, margin));
             lights[1] = new LightBall(screenWidth, screenHeight / 3, 4, new Vector3(1.5f, 0.2f, 0.2f), new Vector3(screenWidth, screenHeight, margin));
-            lights[2] = new LightBall(screenWidth/2, screenHeight/8, 4, new Vector3(0.2f, 1.5f, 0.2f), new Vector3(screenWidth, screenHeight, margin));
+            lights[2] = new LightBall(screenWidth / 2, screenHeight / 8, 4, new Vector3(0.2f, 1.5f, 0.2f), new Vector3(screenWidth, screenHeight, margin));
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-         
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -74,14 +71,14 @@ namespace SoftShaderTest
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            if(framesUntilRandomPixelResPicked > 0 && frameCounter >= framesUntilRandomPixelResPicked) // >= makes me feel safe
+            if (framesUntilRandomPixelResPicked > 0 && frameCounter >= framesUntilRandomPixelResPicked) // >= makes me feel safe
             {
                 frameCounter = 0;
                 BakePixels(true);
             }
             frameCounter++;
 
-            for (int i = 0; i < lights.Length; i++) 
+            for (int i = 0; i < lights.Length; i++)
             {
                 lights[i].Update();
             }
@@ -93,7 +90,7 @@ namespace SoftShaderTest
         {
             GraphicsDevice.Clear(background);
 
-            _spriteBatch.Begin();   
+            _spriteBatch.Begin();
 
             for (int i = 0; i < pixelRes; i++)
             {
@@ -105,8 +102,8 @@ namespace SoftShaderTest
                     {
                         LightBall ball = lights[k];
 
-                        if(k == 0) //If this is the first light being calculated on this pixel, reset its color map entry.
-                        {                          
+                        if (k == 0) //If this is the first light being calculated on this pixel, reset its color map entry.
+                        {
                             colorMap[i][j] = new Vector3(0f, 0f, 0f);
                         }
 
@@ -125,10 +122,10 @@ namespace SoftShaderTest
                     }
 
                     //At end of frame, clear color map entries.
-                    if(i == pixelRes - 1 && j == pixelRes - 1)
+                    if (i == pixelRes - 1 && j == pixelRes - 1)
                     {
                         Array.Clear(colorMap, 0, colorMap.Length);
-                    }                     
+                    }
                 }
             }
 
@@ -166,6 +163,6 @@ namespace SoftShaderTest
                     colorMap[i][j] = new Vector3(0f, 0f, 0f);
                 }
             }
-        }     
+        }
     }
 }

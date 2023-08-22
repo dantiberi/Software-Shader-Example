@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SoftShaderTest
+﻿namespace SoftShaderTest
 {
     public static class Utility
     {
@@ -40,7 +34,7 @@ namespace SoftShaderTest
                 n1 = (n + (num / n)) / 2;
             } // end while  
             return n;
-        }  
+        }
 
         /// <summary>
         /// Calculates the size each square needs to be in order to fill the screen.
