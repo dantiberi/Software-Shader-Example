@@ -58,9 +58,9 @@ namespace SoftShaderTest
 
             BakePixels(false);
 
-            lights[0] = new LightBall(0, 0, 4, new Vector3(0.3f, 0.3f, 1.5f), new Vector3(screenWidth, screenHeight, margin));
+            lights[0] = new LightBall(0, 0, 4, new Vector3(0.2f, 0.2f, 1.5f), new Vector3(screenWidth, screenHeight, margin));
             lights[1] = new LightBall(screenWidth, screenHeight / 3, 4, new Vector3(1.5f, 0.2f, 0.2f), new Vector3(screenWidth, screenHeight, margin));
-            lights[2] = new LightBall(screenWidth/2, screenHeight/8, 4, new Vector3(0.3f, 1.5f, 0.3f), new Vector3(screenWidth, screenHeight, margin));
+            lights[2] = new LightBall(screenWidth/2, screenHeight/8, 4, new Vector3(0.2f, 1.5f, 0.2f), new Vector3(screenWidth, screenHeight, margin));
         }
 
         protected override void LoadContent()
