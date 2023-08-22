@@ -48,8 +48,8 @@ namespace SoftShaderTest
         {
             // TODO: Add your initialization logic here
 
-            _graphics.PreferredBackBufferWidth = 1000;
-            _graphics.PreferredBackBufferHeight = 800;
+            _graphics.PreferredBackBufferWidth = (int)(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 1.25);
+            _graphics.PreferredBackBufferHeight = (int)(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height / 1.25);
             _graphics.ApplyChanges();
 
             base.Initialize();
