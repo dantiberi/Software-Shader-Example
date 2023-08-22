@@ -11,29 +11,28 @@ namespace SoftShaderTest
 {
     public class Game1 : Game
     {
+        //User Options:
+        int pixelRes = 17;
+        float dimming = 0.4f;
+        Color background = new Color(41, 37, 74);
+        int framesUntilRandomPixelResPicked = 60; //-1 for off
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        int pixelRes = 17;
         float pixelSize;
         float screenWidth;
         float screenHeight;
-
-        float margin;
-
-        float dimming = 0.5f;
+        float margin;       
 
         Random rand;
 
         Vector2[][] positionMap;
         Vector3[][] colorMap;
 
-        LightBall[] lights = new LightBall[3];
+        LightBall[] lights = new LightBall[1];       
 
-        Color background = new Color(41,37,74);
-
-        int frameCounter = 0;
-        int framesUntilRandomPixelResPicked = 60; //-1 for off      
+        int frameCounter = 0;          
 
         public Game1()
         {
@@ -46,7 +45,6 @@ namespace SoftShaderTest
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             _graphics.PreferredBackBufferWidth = (int)(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 1.25);
             _graphics.PreferredBackBufferHeight = (int)(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height / 1.25);
             _graphics.ApplyChanges();
@@ -61,14 +59,11 @@ namespace SoftShaderTest
             lights[0] = new LightBall(0, 0, 4, new Vector3(0.3f, 0.3f, 1.5f), new Vector3(screenWidth, screenHeight, margin));
             lights[1] = new LightBall(screenWidth, screenHeight / 3, 4, new Vector3(1.5f, 0.2f, 0.2f), new Vector3(screenWidth, screenHeight, margin));
             lights[2] = new LightBall(screenWidth/2, screenHeight/8, 4, new Vector3(0.3f, 1.5f, 0.3f), new Vector3(screenWidth, screenHeight, margin));
-
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
          
         }
 
@@ -96,7 +91,6 @@ namespace SoftShaderTest
         {
             GraphicsDevice.Clear(background);
 
-            // TODO: Add your drawing code here
             _spriteBatch.Begin();         
 
             for (int z = 0; z < lights.Length; z++)
@@ -122,7 +116,7 @@ namespace SoftShaderTest
                 }
             }
 
-            //Reset color map
+            //Reset color map each frame. I should optimize this somehow
             for (int i = 0; i < pixelRes; i++)
             {
                 colorMap[i] = new Vector3[pixelRes];
@@ -137,6 +131,10 @@ namespace SoftShaderTest
             base.Draw(gameTime);
         }
 
+        /// <summary>
+        /// Calculates and bakes the position of each square on the screen.
+        /// </summary>
+        /// <param name="shakeThingsUp">If true, set the density of squares on the screen to a random number</param>
         public void BakePixels(bool shakeThingsUp)
         {
             pixelSize = calcPixelSize();
@@ -164,11 +162,23 @@ namespace SoftShaderTest
             }
         }
 
+        /// <summary>
+        /// Calculates the size each square needs to be in order to fill the screen.
+        /// </summary>
+        /// <returns></returns>
         public float calcPixelSize()
         {
             return (float)_graphics.PreferredBackBufferHeight / (float)pixelRes;
         }
 
+        /// <summary>
+        /// Calculates the distance using integer math only.
+        /// </summary>
+        /// <param name="x1"></param>
+        /// <param name="y1"></param>
+        /// <param name="x2"></param>
+        /// <param name="y2"></param>
+        /// <returns></returns>
         public static int FastIntDistance(int x1, int y1, int x2, int y2)
         {
             int num = x1 - x2;
