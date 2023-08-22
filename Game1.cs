@@ -13,9 +13,11 @@ namespace SoftShaderTest
     {
         //User Options:
         int pixelRes = 17;
+        int minRandomPixelRes = 2;
+        int maxRandomPixelRes = 200;
         float dimming = 0.4f;
         Color background = new Color(41, 37, 74);
-        int framesUntilRandomPixelResPicked = 60; //-1 for off
+        int framesUntilRandomPixelResPicked = 60; //-1 for static pixel resolution.
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -146,7 +148,7 @@ namespace SoftShaderTest
 
             if (shakeThingsUp)
             {
-                pixelRes = rand.Next(2, 201);
+                pixelRes = rand.Next(minRandomPixelRes, maxRandomPixelRes + 1);
                 pixelSize = Utility.CalcPixelSize(_graphics.PreferredBackBufferHeight, pixelRes);
                 margin = (screenWidth - (pixelRes * pixelSize)) / 2;
             }
