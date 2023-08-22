@@ -9,7 +9,7 @@ namespace SoftShaderTest
     public class Game1 : Game
     {
         //User Options:
-        int pixelRes = 17;
+        int pixelRes = 100;
         int minRandomPixelRes = 2;
         int maxRandomPixelRes = 200;
         float dimming = 0.4f;
@@ -19,7 +19,7 @@ namespace SoftShaderTest
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        float pixelSize;
+        float pixelSize; 
         float screenWidth;
         float screenHeight;
         float margin;
@@ -32,6 +32,7 @@ namespace SoftShaderTest
         LightBall[] lights = new LightBall[3];
 
         int frameCounter = 0;
+        int pixelWidthCount;
 
         public Game1()
         {
@@ -94,9 +95,9 @@ namespace SoftShaderTest
 
             for (int i = 0; i < pixelRes; i++)
             {
-                colorMap[i] = new Vector3[pixelRes];
+                colorMap[i] = new Vector3[pixelWidthCount];
 
-                for (int j = 0; j < pixelRes; j++)
+                for (int j = 0; j < pixelWidthCount; j++)
                 {
                     for (int k = 0; k < lights.Length; k++) //For each pixel i,j and for each light k.
                     {
@@ -122,7 +123,7 @@ namespace SoftShaderTest
                     }
 
                     //At end of frame, clear color map entries.
-                    if (i == pixelRes - 1 && j == pixelRes - 1)
+                    if (i == pixelRes - 1 && j == pixelWidthCount - 1)
                     {
                         Array.Clear(colorMap, 0, colorMap.Length);
                     }
@@ -141,13 +142,16 @@ namespace SoftShaderTest
         public void BakePixels(bool shakeThingsUp)
         {
             pixelSize = Utility.CalcPixelSize(_graphics.PreferredBackBufferHeight, pixelRes);
-            margin = (screenWidth - (pixelRes * pixelSize)) / 2;
+            pixelWidthCount = (int)(_graphics.PreferredBackBufferWidth / pixelSize);
+
+            margin = (screenWidth - (pixelWidthCount * pixelSize)) / 2;
 
             if (shakeThingsUp)
             {
                 pixelRes = rand.Next(minRandomPixelRes, maxRandomPixelRes + 1);
                 pixelSize = Utility.CalcPixelSize(_graphics.PreferredBackBufferHeight, pixelRes);
-                margin = (screenWidth - (pixelRes * pixelSize)) / 2;
+                pixelWidthCount = (int)(_graphics.PreferredBackBufferWidth / pixelSize);
+                margin = (screenWidth - (pixelWidthCount * pixelSize)) / 2;
             }
 
             //Pre-Bake pixel positions
@@ -155,11 +159,11 @@ namespace SoftShaderTest
             colorMap = new Vector3[pixelRes][];
             for (int i = 0; i < pixelRes; i++)
             {
-                positionMap[i] = new Vector2[pixelRes];
-                colorMap[i] = new Vector3[pixelRes];
-                for (int j = 0; j < pixelRes; j++)
+                positionMap[i] = new Vector2[pixelWidthCount];
+                colorMap[i] = new Vector3[pixelWidthCount];
+                for (int j = 0; j < pixelWidthCount; j++)
                 {
-                    positionMap[i][j] = new Vector2(i * pixelSize, j * pixelSize);
+                    positionMap[i][j] = new Vector2(j * pixelSize, i * pixelSize);
                     colorMap[i][j] = new Vector3(0f, 0f, 0f);
                 }
             }
