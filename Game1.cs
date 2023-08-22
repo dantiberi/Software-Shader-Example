@@ -91,15 +91,23 @@ namespace SoftShaderTest
         {
             GraphicsDevice.Clear(background);
 
-            _spriteBatch.Begin();         
+            _spriteBatch.Begin();   
 
-            for (int z = 0; z < lights.Length; z++)
+            for (int i = 0; i < pixelRes; i++)
             {
-                LightBall ball = lights[z];
-                for (int i = 0; i < pixelRes; i++)
+                colorMap[i] = new Vector3[pixelRes];
+
+                for (int j = 0; j < pixelRes; j++)
                 {
-                    for (int j = 0; j < pixelRes; j++)
+                    for (int k = 0; k < lights.Length; k++) //For each pixel i,j and for each light k.
                     {
+                        LightBall ball = lights[k];
+
+                        if(k == 0) //If this is the first light being calculated on this pixel, reset its color map entry.
+                        {                          
+                            colorMap[i][j] = new Vector3(0f, 0f, 0f);
+                        }
+
                         //float distanceToLight = Vector2.Distance(positionMap[i][j], ball.position);
                         float distanceToLight = Utility.FastIntDistance((int)positionMap[i][j].X, (int)positionMap[i][j].Y, (int)ball.position.X, (int)ball.position.Y);
 
@@ -109,20 +117,16 @@ namespace SoftShaderTest
                         float g = colorMap[i][j].Y + (lighting * ball.colorOffset.Y);
                         float b = colorMap[i][j].Z + (lighting * ball.colorOffset.Z);
 
-                        colorMap[i][j] = new Vector3(r,g,b);
+                        colorMap[i][j] = new Vector3(r, g, b);
 
                         _spriteBatch.FillRectangle(new RectangleF((float)(positionMap[i][j].X + margin), (float)(positionMap[i][j].Y), pixelSize, pixelSize), new Color(r, g, b));
                     }
-                }
-            }
 
-            //Reset color map each frame. I should optimize this somehow
-            for (int i = 0; i < pixelRes; i++)
-            {
-                colorMap[i] = new Vector3[pixelRes];
-                for (int j = 0; j < pixelRes; j++)
-                {
-                    colorMap[i][j] = new Vector3(0f, 0f, 0f);
+                    //At end of frame, clear color map entries.
+                    if(i == pixelRes - 1 && j == pixelRes - 1)
+                    {
+                        Array.Clear(colorMap, 0, colorMap.Length);
+                    }                     
                 }
             }
 
