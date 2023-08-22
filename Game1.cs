@@ -11,29 +11,28 @@ namespace SoftShaderTest
 {
     public class Game1 : Game
     {
+        //User Options:
+        int pixelRes = 17;
+        float dimming = 0.4f;
+        Color background = new Color(41, 37, 74);
+        int framesUntilRandomPixelResPicked = 60; //-1 for off
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        int pixelRes = 17;
         float pixelSize;
         float screenWidth;
         float screenHeight;
-
-        float margin;
-
-        float dimming = 0.4f;
+        float margin;       
 
         Random rand;
 
         Vector2[][] positionMap;
         Vector3[][] colorMap;
 
-        LightBall[] lights = new LightBall[3];
+        LightBall[] lights = new LightBall[1];       
 
-        Color background = new Color(41,37,74);
-
-        int frameCounter = 0;
-        int framesUntilRandomPixelResPicked = 60; //-1 for off      
+        int frameCounter = 0;          
 
         public Game1()
         {
@@ -60,14 +59,11 @@ namespace SoftShaderTest
             lights[0] = new LightBall(0, 0, 4, new Vector3(0.3f, 0.3f, 1.5f), new Vector3(screenWidth, screenHeight, margin));
             lights[1] = new LightBall(screenWidth, screenHeight / 3, 4, new Vector3(1.5f, 0.2f, 0.2f), new Vector3(screenWidth, screenHeight, margin));
             lights[2] = new LightBall(screenWidth/2, screenHeight/8, 4, new Vector3(0.3f, 1.5f, 0.3f), new Vector3(screenWidth, screenHeight, margin));
-
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
          
         }
 
@@ -95,7 +91,6 @@ namespace SoftShaderTest
         {
             GraphicsDevice.Clear(background);
 
-            // TODO: Add your drawing code here
             _spriteBatch.Begin();         
 
             for (int z = 0; z < lights.Length; z++)
@@ -105,12 +100,10 @@ namespace SoftShaderTest
                 {
                     for (int j = 0; j < pixelRes; j++)
                     {
-                        float distanceToLight = Vector2.Distance(positionMap[i][j], ball.position);
+                        //float distanceToLight = Vector2.Distance(positionMap[i][j], ball.position);
+                        float distanceToLight = FastIntDistance((int)positionMap[i][j].X, (int)positionMap[i][j].Y, (int)ball.position.X, (int)ball.position.Y);
 
-                        float lighting = 1 - (distanceToLight / screenWidth) - dimming;
-
-                        if (lighting < 0)
-                            lighting = 0;
+                        float lighting = Math.Max(1 - (distanceToLight / screenWidth) - dimming, 0); //Must be positive or zero, no negative values. 
 
                         float r = colorMap[i][j].X + (lighting * ball.colorOffset.X);
                         float g = colorMap[i][j].Y + (lighting * ball.colorOffset.Y);
@@ -123,7 +116,7 @@ namespace SoftShaderTest
                 }
             }
 
-            //Reset color map
+            //Reset color map each frame. I should optimize this somehow
             for (int i = 0; i < pixelRes; i++)
             {
                 colorMap[i] = new Vector3[pixelRes];
@@ -138,6 +131,10 @@ namespace SoftShaderTest
             base.Draw(gameTime);
         }
 
+        /// <summary>
+        /// Calculates and bakes the position of each square on the screen.
+        /// </summary>
+        /// <param name="shakeThingsUp">If true, set the density of squares on the screen to a random number</param>
         public void BakePixels(bool shakeThingsUp)
         {
             pixelSize = calcPixelSize();
@@ -165,9 +162,47 @@ namespace SoftShaderTest
             }
         }
 
+        /// <summary>
+        /// Calculates the size each square needs to be in order to fill the screen.
+        /// </summary>
+        /// <returns></returns>
         public float calcPixelSize()
         {
             return (float)_graphics.PreferredBackBufferHeight / (float)pixelRes;
         }
+
+        /// <summary>
+        /// Calculates the distance using integer math only.
+        /// </summary>
+        /// <param name="x1"></param>
+        /// <param name="y1"></param>
+        /// <param name="x2"></param>
+        /// <param name="y2"></param>
+        /// <returns></returns>
+        public static int FastIntDistance(int x1, int y1, int x2, int y2)
+        {
+            int num = x1 - x2;
+            int num2 = y1 - y2;
+            return FastIntSqrt(num * num + num2 * num2);
+        }
+
+        /// <summary>
+        /// Finds the integer square root of a positive number  
+        /// https://stackoverflow.com/questions/5345552/fast-method-of-calculating-square-root-and-power
+        /// </summary>
+        /// <param name="num"></param>
+        /// <returns></returns>
+        public static int FastIntSqrt(int num)
+        {
+            if (0 == num) { return 0; }  // Avoid zero divide  
+            int n = (num / 2) + 1;       // Initial estimate, never low  
+            int n1 = (n + (num / n)) / 2;
+            while (n1 < n)
+            {
+                n = n1;
+                n1 = (n + (num / n)) / 2;
+            } // end while  
+            return n;
+        } // end Isqrt()  
     }
 }
