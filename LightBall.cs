@@ -16,8 +16,7 @@ namespace SoftShaderTest
 
         private Vector3 screenDimm;//Width, height, margin
 
-        private int minVelocity = 3;
-        private int maxVelocity = 7;
+        private int maxVelocity = 10;
 
         public LightBall(float x, float y, float velocity, Vector3 colorOffset, Vector3 screenDimm)
         {
@@ -37,22 +36,22 @@ namespace SoftShaderTest
             if (position.X > screenDimm.X - screenDimm.Z)
             {
                 _moveRight = false;
-                velocity = rand.Next(0 - minVelocity, maxVelocity);
+                velocity = rand.Next(0 - maxVelocity, maxVelocity) + 2;
             }
             else if (position.X <= 0)
             {
                 _moveRight = true;
-                velocity = rand.Next(0 - minVelocity, maxVelocity);
+                velocity = rand.Next(0 - maxVelocity, maxVelocity) + 2;
             }
             if (position.Y <= 0)
             {
                 _moveDown = true;
-                velocity = rand.Next(0 - minVelocity, maxVelocity);
+                velocity = rand.Next(0 - maxVelocity, maxVelocity) + 2;
             }
             else if (position.Y >= screenDimm.Y)
             {
                 _moveDown = false;
-                velocity = rand.Next(0 - minVelocity, maxVelocity);
+                velocity = rand.Next(0 - maxVelocity, maxVelocity) + 2;
             }
 
             if (_moveRight)
