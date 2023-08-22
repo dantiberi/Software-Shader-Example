@@ -21,7 +21,7 @@ namespace SoftShaderTest
 
         float margin;
 
-        float dimming = 0.4f;
+        float dimming = 0.5f;
 
         Random rand;
 
@@ -107,12 +107,10 @@ namespace SoftShaderTest
                 {
                     for (int j = 0; j < pixelRes; j++)
                     {
-                        float distanceToLight = Vector2.Distance(positionMap[i][j], ball.position);
+                        //float distanceToLight = Vector2.Distance(positionMap[i][j], ball.position);
+                        float distanceToLight = FastIntDistance((int)positionMap[i][j].X, (int)positionMap[i][j].Y, (int)ball.position.X, (int)ball.position.Y);
 
-                        float lighting = 1 - (distanceToLight / screenWidth) - dimming;
-
-                        if (lighting < 0)
-                            lighting = 0;
+                        float lighting = Math.Max(1 - (distanceToLight / screenWidth) - dimming, 0); //Must be positive or zero, no negative values. 
 
                         float r = colorMap[i][j].X + (lighting * ball.colorOffset.X);
                         float g = colorMap[i][j].Y + (lighting * ball.colorOffset.Y);
@@ -171,5 +169,31 @@ namespace SoftShaderTest
         {
             return (float)_graphics.PreferredBackBufferHeight / (float)pixelRes;
         }
+
+        public static int FastIntDistance(int x1, int y1, int x2, int y2)
+        {
+            int num = x1 - x2;
+            int num2 = y1 - y2;
+            return FastIntSqrt(num * num + num2 * num2);
+        }
+
+        /// <summary>
+        /// Finds the integer square root of a positive number  
+        /// https://stackoverflow.com/questions/5345552/fast-method-of-calculating-square-root-and-power
+        /// </summary>
+        /// <param name="num"></param>
+        /// <returns></returns>
+        public static int FastIntSqrt(int num)
+        {
+            if (0 == num) { return 0; }  // Avoid zero divide  
+            int n = (num / 2) + 1;       // Initial estimate, never low  
+            int n1 = (n + (num / n)) / 2;
+            while (n1 < n)
+            {
+                n = n1;
+                n1 = (n + (num / n)) / 2;
+            } // end while  
+            return n;
+        } // end Isqrt()  
     }
 }
