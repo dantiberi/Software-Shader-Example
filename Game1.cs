@@ -113,9 +113,11 @@ namespace SoftShaderTest
 
                         float lighting = Math.Max(1 - (distanceToLight / screenWidth) - dimming, 0); //Must be positive or zero, no negative values. 
 
-                        float r = colorMap[i][j].X + (lighting * ball.colorOffset.X);
-                        float g = colorMap[i][j].Y + (lighting * ball.colorOffset.Y);
-                        float b = colorMap[i][j].Z + (lighting * ball.colorOffset.Z);
+                        float factor = (float)(Math.Max(Math.Sin(lighting / 2) * 2, -1)) * (dimming / 2);
+
+                        float r = colorMap[i][j].X + (lighting * ball.colorOffset.X) + factor;
+                        float g = colorMap[i][j].Y + (lighting * ball.colorOffset.Y) + factor;
+                        float b = colorMap[i][j].Z + (lighting * ball.colorOffset.Z) + factor;
 
                         colorMap[i][j] = new Vector3(r, g, b);
 
