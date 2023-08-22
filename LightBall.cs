@@ -16,7 +16,7 @@ namespace SoftShaderTest
 
         private Vector3 screenDimm;//Width, height, margin
 
-        private int maxVelocity = 10;
+        private int maxVelocity = 7;
 
         public LightBall(float x, float y, float velocity, Vector3 colorOffset, Vector3 screenDimm)
         {
