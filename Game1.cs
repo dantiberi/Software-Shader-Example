@@ -125,7 +125,7 @@ namespace SoftShaderTest
 
                         _spriteBatch.FillRectangle(new RectangleF((float)(positionMap[i][j].X + margin) * (float)Math.Cos(lighting) * (float)Math.Sin(lighting), (float)(positionMap[i][j].Y) * (float)Math.Tan(lighting), pixelSize, pixelSize), new Color(r, g, b));
                         _spriteBatch.FillRectangle(new RectangleF((float)(positionMap[i][j].X + margin) * (float)Math.Cos(lighting), (float)(positionMap[i][j].Y) * (float)Math.Tan(lighting), pixelSize, pixelSize), new Color(r, g, b));
-                        _spriteBatch.FillRectangle(new RectangleF((float)(positionMap[i][j].X + margin) * (float)Math.Cos(lighting) * (float)Math.Tan(lighting), (float)(positionMap[i][j].Y) * (float)Math.Tan(lighting) * 2, pixelSize, pixelSize), new Color(r, g, b));
+                        _spriteBatch.FillRectangle(new RectangleF(screenWidth - (float)(positionMap[i][j].X + margin) * (float)Math.Cos(lighting) * (float)Math.Tan(lighting), (float)(positionMap[i][j].Y) * (float)Math.Tan(lighting) * 2, pixelSize, pixelSize), new Color(r, g, b));
 
                         _spriteBatch.FillRectangle(new RectangleF((float)(positionMap[i][j].X + margin) * (float)Math.Cos(lighting) / (float)Math.Sin(lighting), (float)(positionMap[i][j].Y) * (float)Math.Tan(lighting) * 2, pixelSize, pixelSize), new Color(r, g, b));
                     }
