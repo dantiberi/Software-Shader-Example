@@ -11,7 +11,7 @@ namespace SoftShaderTest
         //User Options:
         int pixelRes = 100;
         int minRandomPixelRes = 2;
-        int maxRandomPixelRes = 200;
+        int maxRandomPixelRes = 100;
         float dimming = 0.4f;
         Color background = new Color(41, 37, 74);
         int framesUntilRandomPixelResPicked = 60; //-1 for static pixel resolution.
@@ -45,8 +45,8 @@ namespace SoftShaderTest
 
         protected override void Initialize()
         {
-            _graphics.PreferredBackBufferWidth = (int)(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 1.25);
-            _graphics.PreferredBackBufferHeight = (int)(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height / 1.25);
+            _graphics.PreferredBackBufferWidth = (int)(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width / 1.1);
+            _graphics.PreferredBackBufferHeight = (int)(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height / 1.1);
             _graphics.ApplyChanges();
 
             base.Initialize();
