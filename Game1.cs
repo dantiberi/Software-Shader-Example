@@ -29,7 +29,7 @@ namespace SoftShaderTest
         Vector2[][] positionMap;
         Vector3[][] colorMap;
 
-        LightBall[] lights = new LightBall[3];
+        LightBall[] lights = new LightBall[2];
 
         int frameCounter = 0;
         int pixelWidthCount;
@@ -56,9 +56,9 @@ namespace SoftShaderTest
 
             BakePixels(false);
 
-            lights[0] = new LightBall(0, 0, 4, new Vector3(0.2f, 0.2f, 1.5f), new Vector3(screenWidth, screenHeight, margin));
-            lights[1] = new LightBall(screenWidth, screenHeight / 3, 4, new Vector3(1.5f, 0.2f, 0.2f), new Vector3(screenWidth, screenHeight, margin));
-            lights[2] = new LightBall(screenWidth / 2, screenHeight / 8, 4, new Vector3(0.2f, 1.5f, 0.2f), new Vector3(screenWidth, screenHeight, margin));
+            lights[0] = new LightBall(0, 0, 4, new Vector3(1f, 1f, 1.2f), new Vector3(screenWidth, screenHeight, margin));
+            lights[1] = new LightBall(screenWidth, screenHeight / 3, 4, new Vector3(1f, 1.1f, 1f), new Vector3(screenWidth, screenHeight, margin));
+            //lights[2] = new LightBall(screenWidth / 2, screenHeight / 8, 4, new Vector3(0.2f, 1.5f, 0.2f), new Vector3(screenWidth, screenHeight, margin));
         }
 
         protected override void LoadContent()
@@ -121,10 +121,13 @@ namespace SoftShaderTest
 
                         colorMap[i][j] = new Vector3(r, g, b);
 
-                        _spriteBatch.FillRectangle(new RectangleF((float)(positionMap[i][j].X + margin), (float)(positionMap[i][j].Y), pixelSize, pixelSize), new Color(b, g, r));
+                        _spriteBatch.FillRectangle(new RectangleF((float)(positionMap[i][j].X + margin), (float)(positionMap[i][j].Y), pixelSize, pixelSize), new Color(r, g, b));
+
                         _spriteBatch.FillRectangle(new RectangleF((float)(positionMap[i][j].X + margin) * (float)Math.Cos(lighting) * (float)Math.Sin(lighting), (float)(positionMap[i][j].Y) * (float)Math.Tan(lighting), pixelSize, pixelSize), new Color(r, g, b));
                         _spriteBatch.FillRectangle(new RectangleF((float)(positionMap[i][j].X + margin) * (float)Math.Cos(lighting), (float)(positionMap[i][j].Y) * (float)Math.Tan(lighting), pixelSize, pixelSize), new Color(r, g, b));
                         _spriteBatch.FillRectangle(new RectangleF((float)(positionMap[i][j].X + margin) * (float)Math.Cos(lighting) * (float)Math.Tan(lighting), (float)(positionMap[i][j].Y) * (float)Math.Tan(lighting), pixelSize, pixelSize), new Color(r, g, b));
+
+                        _spriteBatch.FillRectangle(new RectangleF((float)(positionMap[i][j].X + margin) * (float)Math.Cos(lighting) / (float)Math.Sin(lighting), (float)(positionMap[i][j].Y) * (float)Math.Tan(lighting), pixelSize, pixelSize), new Color(r, g, b));
                     }
 
                     //At end of frame, clear color map entries.
