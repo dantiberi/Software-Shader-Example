@@ -121,7 +121,10 @@ namespace SoftShaderTest
 
                         colorMap[i][j] = new Vector3(r, g, b);
 
-                        _spriteBatch.FillRectangle(new RectangleF((float)(positionMap[i][j].X + margin), (float)(positionMap[i][j].Y), pixelSize, pixelSize), new Color(r, g, b));
+                        _spriteBatch.FillRectangle(new RectangleF((float)(positionMap[i][j].X + margin), (float)(positionMap[i][j].Y), pixelSize, pixelSize), new Color(b, g, r));
+                        _spriteBatch.FillRectangle(new RectangleF((float)(positionMap[i][j].X + margin) * (float)Math.Cos(lighting) * (float)Math.Sin(lighting), (float)(positionMap[i][j].Y) * (float)Math.Tan(lighting), pixelSize, pixelSize), new Color(r, g, b));
+                        _spriteBatch.FillRectangle(new RectangleF((float)(positionMap[i][j].X + margin) * (float)Math.Cos(lighting), (float)(positionMap[i][j].Y) * (float)Math.Tan(lighting), pixelSize, pixelSize), new Color(r, g, b));
+                        _spriteBatch.FillRectangle(new RectangleF((float)(positionMap[i][j].X + margin) * (float)Math.Cos(lighting) * (float)Math.Tan(lighting), (float)(positionMap[i][j].Y) * (float)Math.Tan(lighting), pixelSize, pixelSize), new Color(r, g, b));
                     }
 
                     //At end of frame, clear color map entries.
