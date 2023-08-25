@@ -11,7 +11,7 @@ namespace SoftShaderTest
         //User Options:
         int pixelRes = 100;
         int minRandomPixelRes = 2;
-        int maxRandomPixelRes = 100;
+        int maxRandomPixelRes = 200;
         float dimming = 0.5f;
         Color background = new Color(41, 37, 74);
         int framesUntilRandomPixelResPicked = 60; //-1 for static pixel resolution.
