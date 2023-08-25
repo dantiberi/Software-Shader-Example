@@ -12,7 +12,7 @@ namespace SoftShaderTest
         int pixelRes = 100;
         int minRandomPixelRes = 2;
         int maxRandomPixelRes = 100;
-        float dimming = 0.4f;
+        float dimming = 0.5f;
         Color background = new Color(41, 37, 74);
         int framesUntilRandomPixelResPicked = 60; //-1 for static pixel resolution.
 
@@ -56,9 +56,9 @@ namespace SoftShaderTest
 
             BakePixels(false);
 
-            lights[0] = new LightBall(0, 0, 4, new Vector3(1f, 1f, 1.2f), new Vector3(screenWidth, screenHeight, margin));
-            lights[1] = new LightBall(screenWidth, screenHeight / 3, 4, new Vector3(1f, 1.1f, 1f), new Vector3(screenWidth, screenHeight, margin));
-            //lights[2] = new LightBall(screenWidth / 2, screenHeight / 8, 4, new Vector3(0.2f, 1.5f, 0.2f), new Vector3(screenWidth, screenHeight, margin));
+            //lights[0] = new LightBall(0, 0, 4, new Vector3(1f, 1f, 1.2f), new Vector3(screenWidth, screenHeight, margin));
+            lights[0] = new LightBall(screenWidth, screenHeight / 3, 4, new Vector3(1f, 1f, 1.25f), new Vector3(screenWidth, screenHeight, margin));
+            lights[1] = new LightBall(screenWidth / 2, screenHeight / 8, 4, new Vector3(1f, 1.2f, 1f), new Vector3(screenWidth, screenHeight, margin));
         }
 
         protected override void LoadContent()
